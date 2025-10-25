@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Naalu Mani Delivery</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+    <!-- Header -->
+    <header style="width:100%; text-align:center; padding:20px 0; background: rgba(0,0,0,0.7); box-shadow: 0 4px 10px rgba(0,0,0,0.5);">
+        <h1>Welcome to Naalu Mani Delivery</h1>
+    </header>
+
+    <!-- Centered Form -->
+    <div class="container">
+        <!-- Optional Logo -->
+        <img src="{{ url_for('static', filename='logo.png') }}" alt="Logo" class="logo">
+
+        <form action="/order" method="POST">
+            <input type="text" name="name" placeholder="Your Name" required>
+            <input type="text" name="phone" placeholder="Phone Number" required>
+            <textarea name="address" rows="3" placeholder="Your Address" required></textarea>
+            <textarea name="items" rows="3" placeholder="Items to Order" required></textarea>
+            <button type="submit">Place Order</button>
+        </form>
+    </div>
+
+</body>
+</html>
+

@@ -1,0 +1,163 @@
+/* --- Body & Background --- */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background: radial-gradient(circle at 20% 30%, #1a0000, #330000, #4d0000);
+    background-attachment: fixed;
+    color: #fff;
+    overflow-x: hidden;
+}
+
+/* --- Header --- */
+header {
+    width: 100%;
+    text-align: center;
+    padding: 25px 0;
+    background: rgba(0,0,0,0.85);
+    box-shadow: 0 6px 20px rgba(0,0,0,0.6);
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 10;
+}
+
+header h1 {
+    color: #ff4d4d;
+    font-size: 28px;
+    letter-spacing: 1px;
+    text-shadow: 0 0 10px #ff1a1a;
+}
+
+/* --- Form Container --- */
+.container {
+    width: 100%;
+    max-width: 450px;
+    padding: 40px 20px; /* reduced horizontal padding */
+    background: rgba(0,0,0,0.8);
+    border-radius: 25px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.6);
+    text-align: center;
+    margin-top: 140px; /* below header */
+    backdrop-filter: blur(6px);
+    animation: slideUp 0.7s ease-out;
+}
+
+/* --- Logo --- */
+.logo {
+    max-width: 100px;
+    margin-bottom: 25px;
+    border-radius: 50%;
+    box-shadow: 0 6px 15px rgba(0,0,0,0.5);
+}
+
+/* --- Form Elements --- */
+input, textarea {
+    width: 100%;
+    padding: 12px 15px 12px 40px; /* room for icon */
+    margin: 12px 0;
+    border-radius: 12px;
+    border: none;
+    background: rgba(255,255,255,0.1);
+    color: #fff;
+    font-size: 16px;
+    position: relative;
+    transition: all 0.3s ease;
+}
+
+/* --- Buttons --- */
+button {
+    background: linear-gradient(to right, #ff4d4d, #ff0000);
+    color: #121212;
+    font-weight: bold;
+    padding: 12px 25px;
+    border: none;
+    border-radius: 15px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: all 0.3s ease;
+    margin-top: 10px;
+    box-shadow: 0 6px 15px rgba(255,0,0,0.5);
+}
+
+button:hover {
+    transform: translateY(-3px) scale(1.02);
+    box-shadow: 0 8px 25px rgba(255,77,77,0.6);
+}
+
+/* --- Fix overflow issue --- */
+input, textarea, button {
+    box-sizing: border-box; /* ensures padding & border stay inside width */
+    max-width: 100%;        /* never exceed container width */
+}
+
+/* Optional: input icons using emojis */
+input[name="name"]::before {
+    content: "👤";
+}
+input[name="phone"]::before {
+    content: "📞";
+}
+textarea[name="address"]::before {
+    content: "🏠";
+}
+textarea[name="items"]::before {
+    content: "🛒";
+}
+
+/* --- Success Page --- */
+.success-box {
+    width: 100%;
+    max-width: 450px;
+    padding: 35px 20px;
+    background: rgba(0,0,0,0.8);
+    border-radius: 25px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.6);
+    text-align: center;
+    color: #ffffff;
+    margin-top: 140px; /* below header */
+    backdrop-filter: blur(6px);
+    animation: slideUp 0.7s ease-out;
+}
+
+.success-box h1 {
+    color: #ff4d4d;
+    text-shadow: 0 0 12px #ff1a1a;
+}
+
+.success-box a {
+    display: inline-block;
+    margin-top: 20px;
+    padding: 12px 25px;
+    background: linear-gradient(to right, #ff4d4d, #ff0000);
+    color: #121212;
+    border-radius: 15px;
+    text-decoration: none;
+    font-weight: bold;
+    box-shadow: 0 6px 15px rgba(255,0,0,0.5);
+    transition: all 0.3s ease;
+}
+
+.success-box a:hover {
+    transform: translateY(-3px) scale(1.02);
+    box-shadow: 0 8px 25px rgba(255,77,77,0.6);
+}
+
+/* --- Animations --- */
+@keyframes slideUp {
+    0% { transform: translateY(50px); opacity: 0; }
+    100% { transform: translateY(0); opacity: 1; }
+}
+
+/* --- Responsive --- */
+@media (max-width: 500px) {
+    .container, .success-box {
+        padding: 20px;
+        margin: 180px 10px 0 10px; /* mobile spacing under header */
+    }
+}
+

@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+
+{% block content %}
+<main>
+  <h2>{{ category.replace('_', ' ').title() }}</h2>
+
+  {% if query %}
+    <p style="text-align:center; margin:20px 0;">Search results for "{{ query }}":</p>
+  {% endif %}
+
+  <div class="products-container">
+    {% for item in items %}
+      {% if not query or query in item.name.lower() %}
+      <!-- Each product card -->
+      <div class="item-card" data-id="{{ item.id }}">
+        {% if item.badge %}
+          <div class="item-badge">{{ item.badge }}</div>
+        {% endif %}
+        
+        <!-- Product Image -->
+        <img src="{{ url_for('static', filename='products/' ~ item.image) }}" alt="{{ item.name }}" class="product-img">
+
+        <!-- Product Info -->
+        <p class="item-name">{{ item.name }}</p>
+        <p>Price: ₹{{ item.price }}/kg</p>
+
+        <!-- Cart Controls -->
+        <div class="cart-controls" data-id="{{ item.id }}">
+          <div class="quantity-box" style="display:none;">
+            <button class="qty-btn decrease">−</button>
+            <input type="number" name="quantity" min="1" value="1">
+            <button class="qty-btn increase">+</button>
+          </div>
+          <button class="add-btn">Add to Cart</button>
+        </div>
+      </div>
+      {% endif %}
+    {% endfor %}
+  </div>
+</main>
+
+<!-- JS -->
+<script src="{{ url_for('static', filename='ui.js') }}"></script>
+{% endblock %}

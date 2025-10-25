@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Naalu Mani Delivery – Fast, fresh groceries at your doorstep in Theni. Order online now!">
+<meta name="keywords" content="Naalu Mani Delivery, grocery delivery, vegetables, fruits, Theni, Naalu Mani">
+<meta name="author" content="Naalu Mani Delivery Team">
+  <title>Naalu Mani Delivery</title>
+
+  <!-- 🧠 Favicon -->
+  <link rel="icon" type="image/png" href="{{ url_for('static', filename='images/logo.png') }}">
+  <link rel="manifest" href="{{ url_for('static', filename='manifest.json') }}">
+<meta name="theme-color" content="#6C63FF">
+
+  <!-- 🧩 Fonts & Icons -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+
+  <!-- 🎨 Main Styles -->
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body class="{% if request.endpoint == 'home' %}home-page{% endif %}">
+  <!-- 🟣 Header -->
+<header>
+  <div class="header-left">
+    <img src="{{ url_for('static', filename='images/logo.png') }}" alt="Naalu Mani Delivery" class="site-logo">
+    <span class="tagline">From cart to your doorstep — faster than you think.</span>
+  </div>
+
+  <nav class="header-right">
+    <a href="{{ url_for('home') }}">Home</a>
+    <a href="{{ url_for('catalog') }}">Categories</a>
+    <a href="{{ url_for('cart') }}"><i class="fa fa-shopping-cart"></i> <span id="cart-count">{{ cart_count }}</span></a>
+    <a href="{{ url_for('contact') }}">Contact</a>
+  </nav>
+</header>
+
+
+  <!-- 🔍 Search Bar (hidden on home page) -->
+{% if request.endpoint != 'home' %}
+<div class="search-bar">
+  <form action="{{ url_for('search_item') }}" method="GET" class="search-form">
+    <input type="text" name="query" placeholder="Search for items..." required>
+    <button type="submit">Search</button>
+  </form>
+</div>
+{% endif %}
+
+
+  <!-- 🧾 Toast Notification -->
+  <div id="addToast" class="toast"></div>
+
+  <!-- 🧩 Main Page Content -->
+  <main>
+    {% block content %}{% endblock %}
+  </main>
+
+  <!-- 🍅 Footer -->
+  <footer>
+    <p>© 2025 <strong>Naalu Mani Delivery</strong> • Fast & Fresh in Theni 🍅</p>
+  </footer>
+
+  <!-- 🧠 JavaScript -->
+  <script src="{{ url_for('static', filename='ui.js') }}"></script>
+
+  <script>
+    // 🧾 Toast notification function
+    function showToast(message) {
+      const toast = document.getElementById('addToast');
+      toast.innerText = message;
+      toast.style.display = 'block';
+      setTimeout(() => { toast.style.display = 'none'; }, 2000);
+    }
+
+    // 🛒 Add to Cart AJAX handler
+    document.addEventListener('DOMContentLoaded', function() {
+      document.querySelectorAll('.add-to-cart-form').forEach(form => {
+        form.addEventListener('submit', function(e) {
+          e.preventDefault();
+          const itemId = this.dataset.id;
+          const quantity = this.querySelector('input[name="quantity"]').value;
+
+          fetch(`/add_to_cart/${itemId}`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ quantity: quantity })
+          })
+          .then(response => response.json())
+          .then(data => {
+            if (data.success) {
+              showToast(`${data.name} added to cart 🛒`);
+              const count = document.getElementById('cart-count');
+              count.innerText = parseInt(count.innerText) + parseInt(quantity);
+            }
+          })
+          .catch(() => showToast("Error adding to cart ❌"));
+        });
+      });
+    });
+  </script>
+
+<script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
+
+<script>
+  if ("serviceWorker" in navigator) {
+    navigator.serviceWorker.register("/sw.js")
+      .then(reg => console.log("✅ Service Worker registered:", reg))
+      .catch(err => console.log("❌ Service Worker error:", err));
+  }
+
+  // 🟣 Show a small Lottie when PWA is installed
+  window.addEventListener('appinstalled', e => {
+    const div = document.createElement('div');
+    div.style.position = 'fixed';
+    div.style.left = '50%';
+    div.style.top = '20%';
+    div.style.transform = 'translateX(-50%)';
+    div.style.zIndex = 9999;
+    div.innerHTML = `
+      <lottie-player src="https://assets9.lottiefiles.com/packages/lf20_jbrw3hcz.json"
+                     background="transparent" speed="1"
+                     style="width:120px;height:120px;" loop autoplay></lottie-player>
+    `;
+    document.body.appendChild(div);
+    setTimeout(() => div.remove(), 2500);
+  });
+</script>
+
+<script>
+  // 💜 Smart Offline System with Stylish Toast
+  let isOffline = false;
+
+  function showOfflineToast(message, color = "#6C63FF") {
+    // Remove any existing toast
+    const existing = document.querySelector('.toast-popup');
+    if (existing) existing.remove();
+
+    const toast = document.createElement('div');
+    toast.className = 'toast-popup';
+    toast.style = `
+      position: fixed;
+      top: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      background-color: ${color};
+      color: white;
+      font-family: 'Poppins', sans-serif;
+      padding: 14px 26px;
+      border-radius: 10px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+      z-index: 9999;
+      opacity: 0;
+      font-size: 16px;
+      transition: opacity 0.4s ease;
+    `;
+    toast.textContent = message;
+    document.body.appendChild(toast);
+
+    setTimeout(() => toast.style.opacity = 1, 50);
+    setTimeout(() => {
+      toast.style.opacity = 0;
+      setTimeout(() => toast.remove(), 400);
+    }, 3000);
+  }
+
+  function goOffline() {
+    if (document.querySelector('.offline-overlay')) return;
+
+    isOffline = true;
+    showOfflineToast("😕 You’re Offline — browsing cached content");
+
+    // Dim background slightly (optional visual cue)
+    const overlay = document.createElement('div');
+    overlay.className = 'offline-overlay';
+    overlay.style = `
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(108, 99, 255, 0.05);
+      z-index: 999;
+      pointer-events: none;
+    `;
+    document.body.appendChild(overlay);
+
+    // Disable all clickable elements
+    document.querySelectorAll('a, button, input[type="submit"]').forEach(el => {
+      el.setAttribute('disabled', 'true');
+      el.style.pointerEvents = 'none';
+      el.style.opacity = '0.6';
+    });
+  }
+
+  function goOnline() {
+    isOffline = false;
+    showOfflineToast("✅ Back Online — all features restored", "#2ecc71");
+
+    // Remove overlay
+    const overlay = document.querySelector('.offline-overlay');
+    if (overlay) overlay.remove();
+
+    // Re-enable elements
+    document.querySelectorAll('a, button, input[type="submit"]').forEach(el => {
+      el.removeAttribute('disabled');
+      el.style.pointerEvents = '';
+      el.style.opacity = '';
+    });
+  }
+
+  // Intercept clicks when offline
+  document.addEventListener('click', function (e) {
+    if (isOffline && (e.target.matches('a, button, input[type="submit"]') || e.target.closest('form'))) {
+      e.preventDefault();
+      showOfflineToast("🚫 You’re offline. Please reconnect to continue.");
+    }
+  });
+
+  window.addEventListener('offline', goOffline);
+  window.addEventListener('online', goOnline);
+</script>
+
+
+
+</body>
+</html>
+>
+
+</body>
+</html>

@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% block content %}
+<main>
+  <h2>Browse by Category</h2>
+
+  {% if products %}
+    <div class="categories">
+      {% for cat in products.keys() %}
+        <a href="{{ url_for('category_page', category=cat) }}" class="category-link">
+          {{ cat.replace('_', ' ').title() }}
+        </a>
+      {% endfor %}
+    </div>
+  {% else %}
+    <p class="no-results">No items found 😔</p>
+  {% endif %}
+</main>
+{% endblock %}
+

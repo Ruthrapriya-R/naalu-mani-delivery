@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Order Confirmation - Naalu Mani Delivery</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  <style>
+    .confirmation-container {
+      width: 90%;
+      max-width: 800px;
+      margin: 30px auto;
+      background: #fff;
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 6px 15px rgba(0,0,0,0.1);
+    }
+    .confirmation-container h2 {
+      text-align: center;
+      color: #264653;
+      margin-bottom: 20px;
+    }
+    .order-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 20px;
+    }
+    .order-table th, .order-table td {
+      padding: 12px;
+      text-align: center;
+      border-bottom: 1px solid #ddd;
+    }
+    .order-table th {
+      background-color: #2a9d8f;
+      color: white;
+    }
+    .order-table img {
+      width: 50px;
+      height: 50px;
+      object-fit: contain;
+      border-radius: 6px;
+    }
+    .payment-method {
+      text-align: center;
+      margin-top: 20px;
+    }
+    .payment-method img {
+      width: 80px;
+      margin: 0 10px;
+      vertical-align: middle;
+    }
+  </style>
+</head>
+<body>
+  <div class="confirmation-container">
+<!-- ✅ Success Animation + Order Info -->
+<div style="text-align:center; margin:30px 0;">
+  <lottie-player src="https://assets9.lottiefiles.com/packages/lf20_jbrw3hcz.json"
+                 background="transparent"
+                 speed="1"
+                 style="width: 150px; height: 150px; margin:auto;"
+                 loop autoplay></lottie-player>
+  <h2 style="color:#2a9d8f;">Payment Successful 🎉</h2>
+  <p><strong>Order ID:</strong> {{ order.id }}</p>
+  <p><strong>Order Time:</strong> {{ order.time }}</p>
+</div>
+
+<script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
+
+
+    <!-- Order Table -->
+    <table class="order-table">
+      <tr>
+        <th>Image</th>
+        <th>Item</th>
+        <th>Price (₹)</th>
+        <th>Quantity</th>
+        <th>Subtotal (₹)</th>
+      </tr>
+      {% for item in order["items"] %}
+      <tr>
+        <td><img src="{{ url_for('static', filename='products/' + item.image) }}" alt="{{ item.name }}"></td>
+        <td>{{ item.name }}</td>
+        <td>{{ item.price }}</td>
+        <td>{{ item.quantity }}</td>
+        <td>{{ item.price * item.quantity }}</td>
+      </tr>
+      {% endfor %}
+      <tr>
+        <th colspan="4">Total</th>
+        <th>{{ order.total }}</th>
+      </tr>
+    </table>
+
+    <!-- Payment Method -->
+    <div class="payment-method">
+      <h3>Payment Method:</h3>
+      {% if order.payment_method == 'GPay' %}
+        <img src="{{ url_for('static', filename='payments/gpay.png') }}" alt="GPay">
+        <span>GPay</span>
+      {% elif order.payment_method == 'Paytm' %}
+        <img src="{{ url_for('static', filename='payments/paytm.png') }}" alt="Paytm">
+        <span>Paytm</span>
+      {% else %}
+        <span>{{ order.payment_method }}</span>
+      {% endif %}
+    </div>
+
+
+    <div style="text-align:center; margin-top:20px;">
+      <a href="{{ url_for('home') }}" class="order-btn">Back to Home</a>
+    </div>
+  </div>
+</body>
+</html>

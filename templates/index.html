@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Naalu Mani Delivery</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body class="home-page">
+
+  <!-- Floating Cart Icon -->
+  <div class="cart-icon">
+    <i class="fas fa-shopping-cart"></i>
+    <span id="cart-count">0</span>
+  </div>
+
+  <!-- Toast -->
+  <div id="addToast" class="toast"></div>
+
+  <header>
+    <img src="{{ url_for('static', filename='images/logo.png') }}" class="site-logo" alt="Logo">
+    <h1>Welcome to Naalu Mani Delivery</h1>
+  </header>
+
+  <main>
+    <h2 class="center-text">Select a Category</h2>
+
+    <div class="categories">
+      <a href="{{ url_for('category_page', category='vegetables') }}" class="category-btn vegetables">Vegetables</a>
+      <a href="{{ url_for('category_page', category='fruits') }}" class="category-btn fruits">Fruits</a>
+      <a href="{{ url_for('category_page', category='spices') }}" class="category-btn spices">Spices</a>
+      <a href="{{ url_for('category_page', category='snacks') }}" class="category-btn snacks">Snacks</a>
+    </div>
+  </main>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/js/all.min.js"></script>
+  <script src="{{ url_for('static', filename='ui.js') }}"></script>
+
+</body>
+</html>

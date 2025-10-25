@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Checkout - Naalu Mani Delivery</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  <style>
+    .checkout-table {
+      width: 90%;
+      margin: 20px auto;
+      border-collapse: collapse;
+      background: #fff;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 6px 15px rgba(0,0,0,0.1);
+    }
+    .checkout-table th, .checkout-table td {
+      padding: 12px;
+      text-align: center;
+      border-bottom: 1px solid #ddd;
+    }
+    .checkout-table th {
+      background-color: #2a9d8f;
+      color: white;
+    }
+    .checkout-table img {
+      width: 60px;
+      height: 60px;
+      object-fit: contain;
+      border-radius: 8px;
+    }
+    .checkout-form {
+      width: 90%;
+      max-width: 500px;
+      margin: 30px auto;
+      background: #fff;
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 6px 15px rgba(0,0,0,0.1);
+    }
+    .checkout-form label {
+      display: block;
+      margin-bottom: 5px;
+      font-weight: 600;
+    }
+    .checkout-form input {
+      width: 100%;
+      padding: 8px;
+      margin-bottom: 15px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+    }
+    .payment-options {
+      text-align: center;
+      margin-top: 20px;
+    }
+    .payment-options label {
+      display: inline-block;
+      margin: 10px;
+      cursor: pointer;
+    }
+    .payment-options img {
+      width: 80px;
+      display: block;
+      margin: 0 auto 5px;
+    }
+    .confirm-btn {
+      display: block;
+      width: 200px;
+      margin: 20px auto 0 auto;
+      padding: 12px;
+      background-color: #264653;
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+    .confirm-btn:hover {
+      background-color: #2a9d8f;
+      transform: scale(1.05);
+    }
+    .location-btn {
+      margin-bottom: 15px;
+      padding: 6px 12px;
+      background: #2a9d8f;
+      color: #fff;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Checkout</h1>
+  </header>
+
+  <main>
+    {% if cart_items %}
+      <!-- Cart Table -->
+      <table class="checkout-table">
+        <tr>
+          <th>Image</th>
+          <th>Item</th>
+          <th>Price (₹)</th>
+          <th>Quantity</th>
+          <th>Subtotal (₹)</th>
+        </tr>
+        {% for item in cart_items %}
+        <tr>
+          <td><img src="{{ url_for('static', filename='products/' + item.image) }}" alt="{{ item.name }}"></td>
+          <td>{{ item.name }}</td>
+          <td>{{ item.price }}</td>
+          <td>{{ item.quantity }}</td>
+          <td>{{ item.price * item.quantity }}</td>
+        </tr>
+        {% endfor %}
+        <tr>
+          <th colspan="4">Total</th>
+          <th>{{ total_price }}</th>
+        </tr>
+      </table>
+
+      <!-- Checkout Form -->
+      <div class="checkout-form">
+        <form action="{{ url_for('complete_payment') }}" method="POST">
+         
+          <label for="name">Name:</label>
+           <div style="position: relative;">
+          <input type="text" id="name" name="name" placeholder="Enter your name" required>
+          <button type="button" onclick="startVoice('name')" style="position:absolute; right:5px; top:5px;">🎤</button>
+          </div>
+
+          <label for="phone">Phone:</label>
+          <div style="position: relative;">
+          <input type="text" id="phone" name="phone" placeholder="Enter your phone number" required>
+          <button type="button" onclick="startVoice('phone')" style="position:absolute; right:5px; top:5px;">🎤</button>
+</div>
+          <label for="address">Address:</label>
+<div style="position: relative;">
+  <input type="text" id="address" name="address" placeholder="Enter your address" required style="padding-right: 100px;">
+  <button type="button" class="location-btn" onclick="getLocation()" style="position:absolute; right:50px; top:5px;">📍</button>
+  <button type="button" onclick="startVoice('address')" style="position:absolute; right:5px; top:5px;">🎤</button>
+</div>
+
+
+          <!-- Payment Methods -->
+          <div class="payment-options">
+            <h3>Select Payment Method:</h3>
+            <label>
+              <input type="radio" name="payment_method" value="GPay" required>
+              <img src="{{ url_for('static', filename='payments/gpay.png') }}" alt="GPay"> GPay
+            </label>
+            <label>
+              <input type="radio" name="payment_method" value="Paytm">
+              <img src="{{ url_for('static', filename='payments/paytm.png') }}" alt="Paytm"> Paytm
+            </label>
+            <label>
+              <input type="radio" name="payment_method" value="Cash on Delivery">
+              Cash on Delivery
+            </label>
+          </div>
+
+          <button type="submit" class="confirm-btn">Confirm Payment</button>
+        </form>
+      </div>
+
+    {% else %}
+      <p class="center-text">Your cart is empty 🛒</p>
+      <a href="{{ url_for('home') }}" class="confirm-btn">Go Shopping</a>
+    {% endif %}
+  </main>
+
+  <script>
+    function getLocation() {
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(function(position) {
+          const lat = position.coords.latitude;
+          const lon = position.coords.longitude;
+          // You can use a reverse geocoding API here to get a readable address
+          document.getElementById('address').value = `Lat: ${lat}, Lon: ${lon}`;
+        }, function(error) {
+          alert("Unable to fetch location. Please type manually.");
+        });
+      } else {
+        alert("Geolocation is not supported by this browser.");
+      }
+    }
+  </script>
+<script>
+function startVoice(fieldId) {
+    // Check browser support
+    if (!('webkitSpeechRecognition' in window)) {
+        alert('Your browser does not support voice input.');
+        return;
+    }
+
+    const recognition = new webkitSpeechRecognition();
+    recognition.lang = 'en-US';
+    recognition.interimResults = false;
+    recognition.maxAlternatives = 1;
+
+    recognition.onresult = function(event) {
+        const transcript = event.results[0][0].transcript;
+        document.getElementById(fieldId).value = transcript;
+    };
+
+    recognition.onerror = function(event) {
+        alert('Error occurred in recognition: ' + event.error);
+    };
+
+    recognition.start();
+}
+</script>
+
+</body>
+</html>

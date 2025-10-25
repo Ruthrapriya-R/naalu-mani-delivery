@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Naalu Mani Delivery</title>
+
+    <!-- Modern Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&display=swap" rel="stylesheet">
+
+    <!-- Your CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+
+    <!-- Optional Icons (Font Awesome) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" integrity="sha512-..." crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+<div id="addToast" class="toast"></div>
+
+<body>
+
+<header>
+    Welcome to Naalu Mani Delivery
+</header>
+
+<div class="container">
+    <h2>Your order has been successfully placed!</h2>
+    <p>Thank you for ordering. We will contact you shortly.</p>
+    <a href="/">Back to Home</a>
+</div>
+<script src="{{ url_for('static', filename='ui.js') }}"></script>
+
+</body>
+</html>

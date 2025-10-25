@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% block content %}
+<main class="home-page">
+  <div class="home-container">
+    <img src="{{ url_for('static', filename='images/logo.png') }}" alt="Naalu Mani Delivery" class="site-logo" style="height:100px;">
+    <h1>Naalu Mani Delivery</h1>
+    <p class="tagline">From cart to your doorstep — faster than you think 🚀</p>
+
+    <form action="{{ url_for('catalog') }}" method="get">
+      <input type="text" placeholder="9342643440" required>
+      <button type="submit" class="btn-primary">Get Started</button>
+    </form>
+  </div>
+</main>
+{% endblock %}
+
