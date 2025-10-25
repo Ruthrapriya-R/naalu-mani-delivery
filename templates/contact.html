@@ -9,16 +9,9 @@
     <form id="contactForm" action="#" method="POST" onsubmit="return sendMessage(event)">
       <div class="form-group">
         <label for="name">Your Name</label>
-        <input 
-  type="tel" 
-  id="phone" 
-  name="phone" 
-  placeholder="9342643440" 
-  pattern="[0-9]{10}" 
-  maxlength="10"
-  inputmode="numeric" 
-  required
-  oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0, 10)">
+        <input type="tel" id="phone" name="phone" pattern="[0-9]{10}" maxlength="10" 
+        placeholder="Enter your 10-digit number" required
+        oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0, 10);">
 
       </div>
 <div class="contact-info">

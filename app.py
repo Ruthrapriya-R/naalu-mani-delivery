@@ -272,6 +272,10 @@ def contact():
 def service_worker():
     return send_from_directory('static', 'sw.js', mimetype='application/javascript')
 
+@app.route('/about')
+def about():
+    return render_template('about.html')
+
 
 if __name__ == "__main__":
     app.run(debug=True)

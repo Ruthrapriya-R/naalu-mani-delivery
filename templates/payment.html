@@ -7,6 +7,22 @@
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
   <style>
+    body {
+      background-color: #F8F9FA;
+      font-family: 'Poppins', sans-serif;
+      margin: 0;
+      color: #212529;
+    }
+
+    header {
+      text-align: center;
+      padding: 20px;
+      background-color: #00B894;
+      color: white;
+      font-size: 1.6rem;
+      font-weight: 600;
+    }
+
     .checkout-table {
       width: 90%;
       margin: 20px auto;
@@ -14,90 +30,122 @@
       background: #fff;
       border-radius: 12px;
       overflow: hidden;
-      box-shadow: 0 6px 15px rgba(0,0,0,0.1);
+      box-shadow: 0 4px 15px rgba(0,0,0,0.08);
     }
+
     .checkout-table th, .checkout-table td {
       padding: 12px;
       text-align: center;
-      border-bottom: 1px solid #ddd;
+      border-bottom: 1px solid #eaeaea;
     }
+
     .checkout-table th {
-      background-color: #2a9d8f;
+      background-color: #00B894;
       color: white;
     }
+
     .checkout-table img {
       width: 60px;
       height: 60px;
       object-fit: contain;
       border-radius: 8px;
     }
+
     .checkout-form {
       width: 90%;
-      max-width: 500px;
+      max-width: 520px;
       margin: 30px auto;
       background: #fff;
-      padding: 20px;
+      padding: 25px;
       border-radius: 12px;
-      box-shadow: 0 6px 15px rgba(0,0,0,0.1);
+      box-shadow: 0 4px 15px rgba(0,0,0,0.08);
     }
+
     .checkout-form label {
       display: block;
-      margin-bottom: 5px;
+      margin-bottom: 6px;
       font-weight: 600;
+      color: #212529;
     }
+
     .checkout-form input {
       width: 100%;
-      padding: 8px;
-      margin-bottom: 15px;
-      border-radius: 6px;
+      padding: 10px;
+      margin-bottom: 18px;
+      border-radius: 8px;
       border: 1px solid #ccc;
+      font-size: 0.95rem;
     }
+
+    .checkout-form input:focus {
+      border-color: #00B894;
+      outline: none;
+    }
+
+    .voice-btn, .location-btn {
+      position: absolute;
+      top: 7px;
+      background: #00B894;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      padding: 6px 10px;
+      transition: background 0.3s ease;
+    }
+
+    .voice-btn:hover, .location-btn:hover {
+      background: #00916E;
+    }
+
     .payment-options {
       text-align: center;
-      margin-top: 20px;
+      margin-top: 25px;
     }
+
     .payment-options label {
       display: inline-block;
       margin: 10px;
       cursor: pointer;
+      color: #555555;
     }
+
     .payment-options img {
       width: 80px;
       display: block;
       margin: 0 auto 5px;
     }
+
     .confirm-btn {
       display: block;
-      width: 200px;
-      margin: 20px auto 0 auto;
+      width: 100%;
       padding: 12px;
-      background-color: #264653;
+      background-color: #00B894;
       color: #fff;
       border: none;
       border-radius: 8px;
       font-size: 1rem;
       cursor: pointer;
-      transition: all 0.3s ease;
+      margin-top: 20px;
+      transition: background 0.3s ease, transform 0.2s ease;
     }
+
     .confirm-btn:hover {
-      background-color: #2a9d8f;
-      transform: scale(1.05);
+      background-color: #00916E;
+      transform: scale(1.03);
     }
-    .location-btn {
-      margin-bottom: 15px;
-      padding: 6px 12px;
-      background: #2a9d8f;
-      color: #fff;
-      border: none;
-      border-radius: 6px;
-      cursor: pointer;
+
+    .center-text {
+      text-align: center;
+      color: #777;
+      font-size: 1.2rem;
+      margin-top: 30px;
     }
   </style>
 </head>
 <body>
-  <header>
-    <h1>Checkout</h1>
-  </header>
+
+  <header>Checkout</header>
 
   <main>
     {% if cart_items %}
@@ -107,7 +155,7 @@
           <th>Image</th>
           <th>Item</th>
           <th>Price (₹)</th>
-          <th>Quantity</th>
+          <th>Qty</th>
           <th>Subtotal (₹)</th>
         </tr>
         {% for item in cart_items %}
@@ -128,29 +176,31 @@
       <!-- Checkout Form -->
       <div class="checkout-form">
         <form action="{{ url_for('complete_payment') }}" method="POST">
-         
+
           <label for="name">Name:</label>
-           <div style="position: relative;">
-          <input type="text" id="name" name="name" placeholder="Enter your name" required>
-          <button type="button" onclick="startVoice('name')" style="position:absolute; right:5px; top:5px;">🎤</button>
+          <div style="position: relative;">
+            <input type="text" id="name" name="name" placeholder="Enter your name" required>
+            <button type="button" class="voice-btn" style="right:5px;" onclick="startVoice('name')">🎤</button>
           </div>
 
           <label for="phone">Phone:</label>
           <div style="position: relative;">
-          <input type="text" id="phone" name="phone" placeholder="Enter your phone number" required>
-          <button type="button" onclick="startVoice('phone')" style="position:absolute; right:5px; top:5px;">🎤</button>
-</div>
+            <input type="text" id="phone" name="phone" placeholder="Enter phone number" required maxlength="10" pattern="[0-9]{10}">
+            <button type="button" class="voice-btn" style="right:5px;" onclick="startVoice('phone')">🎤</button>
+          </div>
+
           <label for="address">Address:</label>
-<div style="position: relative;">
-  <input type="text" id="address" name="address" placeholder="Enter your address" required style="padding-right: 100px;">
-  <button type="button" class="location-btn" onclick="getLocation()" style="position:absolute; right:50px; top:5px;">📍</button>
-  <button type="button" onclick="startVoice('address')" style="position:absolute; right:5px; top:5px;">🎤</button>
-</div>
+          <div style="position: relative;">
+            <input type="text" id="address" name="address" placeholder="Enter your address" required style="padding-right: 85px;">
+            <button type="button" class="location-btn" style="right:45px;" onclick="getLocation()">📍</button>
+            <button type="button" class="voice-btn" style="right:5px;" onclick="startVoice('address')">🎤</button>
+          </div>
+          <input type="hidden" name="location" id="hiddenLocation" value="">
 
 
           <!-- Payment Methods -->
           <div class="payment-options">
-            <h3>Select Payment Method:</h3>
+            <h3>Select Payment Method</h3>
             <label>
               <input type="radio" name="payment_method" value="GPay" required>
               <img src="{{ url_for('static', filename='payments/gpay.png') }}" alt="GPay"> GPay
@@ -160,62 +210,50 @@
               <img src="{{ url_for('static', filename='payments/paytm.png') }}" alt="Paytm"> Paytm
             </label>
             <label>
-              <input type="radio" name="payment_method" value="Cash on Delivery">
-              Cash on Delivery
+              <input type="radio" name="payment_method" value="Cash on Delivery"> Cash on Delivery
             </label>
           </div>
 
-          <button type="submit" class="confirm-btn">Confirm Payment</button>
+          <button type="submit" class="confirm-btn">Confirm Order</button>
         </form>
       </div>
 
     {% else %}
       <p class="center-text">Your cart is empty 🛒</p>
-      <a href="{{ url_for('home') }}" class="confirm-btn">Go Shopping</a>
+      <a href="{{ url_for('home') }}" class="confirm-btn" style="max-width:200px;margin:auto;">Go Shopping</a>
     {% endif %}
   </main>
 
   <script>
     function getLocation() {
-      if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(function(position) {
-          const lat = position.coords.latitude;
-          const lon = position.coords.longitude;
-          // You can use a reverse geocoding API here to get a readable address
-          document.getElementById('address').value = `Lat: ${lat}, Lon: ${lon}`;
-        }, function(error) {
-          alert("Unable to fetch location. Please type manually.");
-        });
-      } else {
-        alert("Geolocation is not supported by this browser.");
-      }
-    }
-  </script>
-<script>
-function startVoice(fieldId) {
-    // Check browser support
-    if (!('webkitSpeechRecognition' in window)) {
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(function(position) {
+      const lat = position.coords.latitude;
+      const lon = position.coords.longitude;
+      const locationValue = `Lat: ${lat}, Lon: ${lon}`;
+      document.getElementById('address').value = locationValue;
+      document.getElementById('hiddenLocation').value = locationValue; // ✅ saves to hidden input
+    }, function() {
+      alert("Unable to fetch location. Please type manually.");
+    });
+  } else {
+    alert("Geolocation is not supported by this browser.");
+  }
+}
+
+
+    function startVoice(fieldId) {
+      if (!('webkitSpeechRecognition' in window)) {
         alert('Your browser does not support voice input.');
         return;
+      }
+      const recognition = new webkitSpeechRecognition();
+      recognition.lang = 'en-IN';
+      recognition.onresult = function(event) {
+        document.getElementById(fieldId).value = event.results[0][0].transcript;
+      };
+      recognition.start();
     }
-
-    const recognition = new webkitSpeechRecognition();
-    recognition.lang = 'en-US';
-    recognition.interimResults = false;
-    recognition.maxAlternatives = 1;
-
-    recognition.onresult = function(event) {
-        const transcript = event.results[0][0].transcript;
-        document.getElementById(fieldId).value = transcript;
-    };
-
-    recognition.onerror = function(event) {
-        alert('Error occurred in recognition: ' + event.error);
-    };
-
-    recognition.start();
-}
-</script>
-
+  </script>
 </body>
 </html>

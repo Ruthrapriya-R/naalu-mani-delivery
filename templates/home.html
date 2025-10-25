@@ -1,26 +1,33 @@
 {% extends "base.html" %}
 {% block content %}
-<main class="home-page">
-  <div class="home-container">
-    <img src="{{ url_for('static', filename='images/logo.png') }}" alt="Naalu Mani Delivery" class="site-logo" style="height:100px;">
-    <h1>Naalu Mani Delivery</h1>
-    <p class="tagline">From cart to your doorstep — faster than you think 🚀</p>
 
-    <form action="{{ url_for('catalog') }}" method="get">
-      <input 
-  type="tel" 
-  id="phone" 
-  name="phone" 
-  placeholder="9342643440" 
-  pattern="[0-9]{10}" 
-  maxlength="10"
-  inputmode="numeric" 
-  required
-  oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0, 10)">
+<section class="hero">
+  <h2>Shop for Fresh Groceries</h2>
+  <p>Discover a wide selection of fresh produce, dairy, and more. Fast and reliable delivery right to your doorstep.</p>
+  <a href="{{ url_for('categories') }}" class="btn">Shop Now</a>
+</section>
 
-      <button type="submit" class="btn-primary">Get Started</button>
-    </form>
+<section class="products">
+  <div class="product-card">
+    <img src="{{ url_for('static', filename='products/tomato.png') }}" alt="Tomato">
+    <h3>Tomato</h3>
+    <p>₹40 / kg</p>
+    <button class="add-to-cart">Add to Cart</button>
   </div>
-</main>
-{% endblock %}
 
+  <div class="product-card">
+    <img src="{{ url_for('static', filename='products/onion.png') }}" alt="Onion">
+    <h3>Onion</h3>
+    <p>₹30 / kg</p>
+    <button class="add-to-cart">Add to Cart</button>
+  </div>
+
+  <div class="product-card">
+    <img src="{{ url_for('static', filename='products/apple.png') }}" alt="Apple">
+    <h3>Apple</h3>
+    <p>₹120 / kg</p>
+    <button class="add-to-cart">Add to Cart</button>
+  </div>
+</section>
+
+{% endblock %}
