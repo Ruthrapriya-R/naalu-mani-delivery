@@ -7,7 +7,17 @@
     <p class="tagline">From cart to your doorstep — faster than you think 🚀</p>
 
     <form action="{{ url_for('catalog') }}" method="get">
-      <input type="text" placeholder="9342643440" required>
+      <input 
+  type="tel" 
+  id="phone" 
+  name="phone" 
+  placeholder="9342643440" 
+  pattern="[0-9]{10}" 
+  maxlength="10"
+  inputmode="numeric" 
+  required
+  oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0, 10)">
+
       <button type="submit" class="btn-primary">Get Started</button>
     </form>
   </div>

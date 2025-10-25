@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 
 {% block content %}
-<main class="contact-page">
+<main class="contact-page compact-header">
   <h2>Get in Touch</h2>
   <p class="contact-subtitle">Have questions, feedback, or suggestions? We’d love to hear from you!</p>
 
@@ -9,7 +9,17 @@
     <form id="contactForm" action="#" method="POST" onsubmit="return sendMessage(event)">
       <div class="form-group">
         <label for="name">Your Name</label>
-        <input type="text" id="name" name="name" placeholder="Enter your name" required>
+        <input 
+  type="tel" 
+  id="phone" 
+  name="phone" 
+  placeholder="9342643440" 
+  pattern="[0-9]{10}" 
+  maxlength="10"
+  inputmode="numeric" 
+  required
+  oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0, 10)">
+
       </div>
 <div class="contact-info">
   <h2>Contact Us</h2>
