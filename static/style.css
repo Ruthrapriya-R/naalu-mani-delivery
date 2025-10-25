@@ -8,37 +8,115 @@
 
 /* 🌈 Naalu Mani Delivery Brand Colors */
 :root {
-  --primary: #7e5bef;     /* modern purple */
-  --secondary: #e76f51;   /* accent orange */
-  --dark: #2a2a2a;
-  --light: #f9f9ff;
-  --hover: #a855f7;
+  --primary-color: #00B894;
+  --accent-color: #FF7F50;
+  --text-main: #212529;
+  --text-secondary: #555555;
+  --text-muted: #777777;
+  --bg-main: #FFFFFF;
+  --bg-section: #F8F9FA;
+  --success: #2ECC71;
+  --warning: #E67E22;
+  --error: #E74C3C;
 }
 
-body {
-  font-family: 'Poppins', sans-serif;
-  margin: 0;
-  background: linear-gradient(135deg, #7e5bef, #a855f7);
-  color: #2d0f55;
-  overflow-x: hidden;
-  padding-bottom: 90px;
-}
-
-
-/* -------------------- 🟣 HEADER & FOOTER (Naalu Mani Purple Theme) -------------------- */
-/* 🧭 Full-width Header Layout */
-header {
-  background: linear-gradient(135deg, #7e5bef, #a855f7);
+/* 🟢 Modern Header & Footer Design */
+.site-header {
+  background-color: var(--primary-color);
   color: #fff;
+  padding: 15px 0;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+}
+
+.site-header .container {
+  width: 90%;
+  max-width: 1200px;
+  margin: auto;
   display: flex;
   justify-content: space-between;
   align-items: center;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  font-size: 20px;
+  font-weight: 700;
+  color: white;
+}
+
+.logo i {
+  margin-right: 8px;
+  font-size: 22px;
+}
+
+nav a {
+  color: white;
+  text-decoration: none;
+  font-weight: 500;
+  margin-left: 25px;
+  transition: opacity 0.2s ease;
+}
+
+nav a:hover {
+  opacity: 0.8;
+}
+
+/* Footer */
+.site-footer {
+  background-color: var(--primary-color);
+  color: white;
+  text-align: center;
+  padding: 15px 0;
+  font-size: 15px;
+  margin-top: 40px;
+  border-top: 2px solid rgba(255,255,255,0.15);
+  box-shadow: 0 -3px 10px rgba(0,0,0,0.05);
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
+}
+
+/* Responsive Header */
+@media (max-width: 768px) {
+  .site-header .container {
+    flex-direction: column;
+  }
+
+  nav a {
+    margin: 8px;
+    display: inline-block;
+  }
+}
+
+
+body {
+  font-family: 'Poppins', sans-serif;
+  background-color: var(--bg-main);
+  color: var(--text-main);
+  margin: 0;
+  padding: 0;
+}
+
+header {
+  background-color: var(--bg-main);
+  color: var(--text-main);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
   padding: 15px 40px;
-  width: 100%;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
-  position: sticky;
-  top: 0;
-  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+header a {
+  color: var(--text-main);
+  font-weight: 600;
+  text-decoration: none;
+  margin-left: 25px;
+  transition: color 0.3s ease;
+}
+
+header a:hover {
+  color: var(--primary-color);
 }
 
 /* Left side (logo + tagline) */
@@ -501,14 +579,12 @@ main {
 }
 
 footer {
-  background: linear-gradient(135deg, #7e5bef, #a855f7);
-  color: #fff;
+  background-color: var(--bg-section);
+  color: var(--text-secondary);
   text-align: center;
-  padding: 15px 20px;
-  font-size: 0.9rem;
-  margin-top: auto; /* pushes footer to the bottom */
-  box-shadow: 0 -4px 10px rgba(0, 0, 0, 0.1);
-  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 15px 0;
+  font-size: 14px;
+  border-top: 1px solid #ddd;
 }
 
 header {
@@ -689,3 +765,43 @@ header {
 .compact-header .header-left .tagline {
   font-size: 12px;
 }
+
+button, .btn-primary {
+  background-color: var(--primary-color);
+  color: white;
+  border: none;
+  padding: 10px 25px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+button:hover, .btn-primary:hover {
+  background-color: #00916E;
+}
+
+/* Offers or Discount Labels */
+.offer-label {
+  background-color: var(--accent-color);
+  color: white;
+  font-weight: bold;
+  padding: 4px 10px;
+  border-radius: 5px;
+  font-size: 13px;
+}
+
+/* Product Cards */
+.product-card {
+  background-color: var(--bg-section);
+  border-radius: 10px;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.05);
+  padding: 15px;
+  text-align: center;
+  transition: transform 0.2s ease;
+}
+
+.product-card:hover {
+  transform: translateY(-5px);
+}
+
+
